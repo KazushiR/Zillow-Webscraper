@@ -7,7 +7,7 @@ from Zillow_API import prices, json_object
 import pandas as pd
 import json, smtplib, ssl
 
-def Lilly_Email(body,recipients,key, html_object):
+def Email(body,recipients,key, html_object):
     smtpobj = smtplib.SMTP("smtp.gmail.com", 587)
     msg = MIMEMultipart()
     msg.attach(MIMEText(body,'text'))
@@ -22,7 +22,7 @@ def Lilly_Email(body,recipients,key, html_object):
     print(f"Mail Sent to {sender}")
     smtpobj.ehlo()
     smtpobj.starttls()
-    smtpobj.login("kazushipythontest@gmail.com", "Hiroshima1@")
+    smtpobj.login("username", "Password")
     smtpobj.sendmail(sender, recipients, msg.as_string())
     smtpobj.close()
 
@@ -31,4 +31,4 @@ information = json.loads(json_object)
 df = pd.DataFrame([(key, L[0], L[1]) for (key, L) in information.items()], columns = ["Websites", "Bedrooms", "Address"])
 pd.set_option('display.max_columns', None)
 df["Prices"] = prices
-Lilly_Email("Please see Attached for HTML File.", ["llw1386@gmail.com"], key="", html_object=df.to_html())
+Email("Please see Attached for HTML File.", ["Recepient"], key="", html_object=df.to_html())
